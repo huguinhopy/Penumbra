@@ -3,11 +3,13 @@ import { ref } from 'vue'
 
 const count = ref(0)
 import Calendario from './components/Calendario.vue';
+import Footer from './components/Footer.vue';
 
 </script>
 
 <template>
-  <Calendario/>
+  <Calendario />
+  <Footer />
 </template>
 
 <style scoped>
