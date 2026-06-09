@@ -80,7 +80,7 @@ const hasFillAnimation = computed(() =>
 
 const fillColorClass = computed(() => ({
   'bg-[#35BA7D]': ['full-green', 'lined-green'].includes(props.variant),
-  'bg-red-500': ['full-red', 'lined-red'].includes(props.variant),
+  'bg-red-400': ['full-red', 'lined-red'].includes(props.variant),
 }))
 
 const buttonClasses = computed(() => {
@@ -97,7 +97,6 @@ const buttonClasses = computed(() => {
     'transition-all',
     'duration-300',
     'border',
-    'hover:cursor-pointer'
   ]
 
   switch (props.variant) {
@@ -106,7 +105,8 @@ const buttonClasses = computed(() => {
         'bg-neutral-100',
         'border-none',
         'text-neutral-900',
-        'hover:text-neutral-900'
+        'hover:text-neutral-900',
+        'hover:cursor-pointer'
       )
       break
 
@@ -115,24 +115,26 @@ const buttonClasses = computed(() => {
         'bg-neutral-100',
         'border-none',
         'text-neutral-900',
-        'hover:text-neutral-100'
+        'hover:text-neutral-100',
+        'hover:cursor-pointer'
       )
       break
 
     case 'full-neutral':
       classes.push(
         'bg-neutral-900',
-        'border-neutral-900',
+        'border-neutral-500',
         'text-neutral-100',
-        'hover:bg-neutral-800'
+        'hover:bg-neutral-800',
+        'hover:cursor-pointer'
       )
       break
 
     case 'full-disabled':
       classes.push(
-        'bg-neutral-500',
-        'border-neutral-500',
-        'text-neutral-300',
+        'bg-neutral-400',
+        'border-none',
+        'text-neutral-600',
         'cursor-not-allowed'
       )
       break
@@ -142,24 +144,26 @@ const buttonClasses = computed(() => {
         'bg-transparent',
         'border--[#35BA7D]',
         'text--[#35BA7D]',
-        'hover:text-neutral-900'
+        'hover:text-neutral-900',
+        'hover:cursor-pointer'
       )
       break
 
     case 'lined-red':
       classes.push(
         'bg-transparent',
-        'border-red-500',
-        'text-red-500',
-        'hover:text-neutral-100'
+        'border-red-400',
+        'text-red-400',
+        'hover:text-neutral-100',
+        'hover:cursor-pointer'
       )
       break
 
     case 'lined-disabled':
       classes.push(
         'bg-transparent',
-        'border-neutral-500',
-        'text-neutral-500',
+        'border-neutral-700',
+        'text-neutral-700',
         'cursor-not-allowed'
       )
       break
