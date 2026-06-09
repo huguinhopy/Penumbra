@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-    <div class="w-full max-w-xl bg-slate-900 rounded-lg p-8 shadow-2xl">
+  <div class="min-h-screen bg-[#111] flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl bg-[#111] rounded-lg p-8 shadow-2xl">
       <div class="flex items-center justify-between mb-8">
         <button
           @click="previousMonth"
@@ -26,35 +26,39 @@
       </div>
 
       <div class="mb-8">
-        <div class="grid grid-cols-7 gap-4 mb-4 pb-4 border-b border-slate-700">
+        <div class="grid grid-cols-7 gap-4 mb-4 pb-4 border-b border-[#877E79]">
           <div
             v-for="day in weekDays"
             :key="day"
-            class="text-center text-sm font-medium text-slate-500 tracking-wide font-cinzel"
+            class="text-center text-sm font-medium text-[#877E79] tracking-wide font-cinzel"
           >
             {{ day }}
           </div>
         </div>
 
         <div class="grid grid-cols-7 gap-4">
-          <div
-            v-for="(day, index) in calendarDays"
-            :key="index"
-            class="h-16 flex items-center justify-center rounded relative group"
-            :class="{ 'opacity-40': !day.isCurrentMonth }"
-          >
+          <template v-for="(day, index) in calendarDays" :key="index">
+            <!-- Célula vazia para dias fora do mês -->
+            <div v-if="!day.isCurrentMonth" class="h-12"></div>
+
+            <!-- Dia do mês atual -->
             <div
-              class="w-full h-full flex items-center justify-center rounded text-xl font-medium transition-all"
-              :class="
-                day.status === 'occupied'
-                  ? 'bg-[#880C27] text-white font-cinzel'
-                  : 'text-[#F0C37F] hover:bg-slate-800 font-cinzel'
-              "
+              v-else
+              class="h-12 flex items-center justify-center rounded relative group"
             >
-              {{ String(day.date).padStart(2, '0') }}
+              <div
+                class="w-full h-full flex items-center justify-center rounded text-xl font-medium transition-all"
+                :class="
+                  day.status === 'occupied'
+                    ? 'bg-[#880C27] text-white font-cinzel'
+                    : 'text-[#F0C37F] hover:bg-slate-800 font-cinzel'
+                "
+              >
+                {{ String(day.date).padStart(2, '0') }}
+              </div>
+              <div class="absolute bottom-1 w-1 h-1 bg-slate-500 rounded-full"></div>
             </div>
-            <div class="absolute bottom-1 w-1 h-1 bg-slate-500 rounded-full"></div>
-          </div>
+          </template>
         </div>
       </div>
 
@@ -77,29 +81,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+import { getReservasPorMes } from '../services/reservas'
 
 const currentDate = ref(new Date(2026, 5, 1))
+const occupiedDates = ref([])
+const isLoading = ref(false)
 
-const weekDays = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB']
+const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 
 const monthNames = [
-  'JANEIRO',
-  'FEVEREIRO',
-  'MARÇO',
-  'ABRIL',
-  'MAIO',
-  'JUNHO',
-  'JULHO',
-  'AGOSTO',
-  'SETEMBRO',
-  'OUTUBRO',
-  'NOVEMBRO',
-  'DEZEMBRO',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
-const monthName = computed(() => monthNames[currentDate.value.getMonth()])
-
+// 1️⃣ Funções auxiliares PRIMEIRO
 const getDaysInMonth = (date) => {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 }
@@ -108,44 +104,46 @@ const getFirstDayOfMonth = (date) => {
   return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
 }
 
+// 2️⃣ Computed DEPOIS das funções
+const monthName = computed(() => monthNames[currentDate.value.getMonth()])
+
 const calendarDays = computed(() => {
   const daysInMonth = getDaysInMonth(currentDate.value)
   const firstDay = getFirstDayOfMonth(currentDate.value)
   const days = []
 
-  const prevMonthDays = getDaysInMonth(
-    new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1)
-  )
-
-  for (let i = firstDay - 1; i >= 0; i--) {
-    days.push({
-      date: prevMonthDays - i,
-      isCurrentMonth: false,
-      status: 'available',
-    })
+  for (let i = 0; i < firstDay; i++) {
+    days.push({ date: null, isCurrentMonth: false, status: 'empty' })
   }
-
-  const occupiedDates = [10, 19, 23]
 
   for (let i = 1; i <= daysInMonth; i++) {
     days.push({
       date: i,
       isCurrentMonth: true,
-      status: occupiedDates.includes(i) ? 'occupied' : 'available',
-    })
-  }
-
-  const remainingDays = 42 - days.length
-  for (let i = 1; i <= remainingDays; i++) {
-    days.push({
-      date: i,
-      isCurrentMonth: false,
-      status: 'available',
+      status: occupiedDates.value.includes(i) ? 'occupied' : 'available',
     })
   }
 
   return days
 })
+
+// 3️⃣ Funções de fetch e navegação POR ÚLTIMO
+async function fetchOccupiedDates() {
+  isLoading.value = true
+  try {
+    occupiedDates.value = await getReservasPorMes(
+      currentDate.value.getFullYear(),
+      currentDate.value.getMonth()
+    )
+  } catch (err) {
+    console.error('Erro ao carregar reservas:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(fetchOccupiedDates)
+watch(currentDate, fetchOccupiedDates)
 
 const previousMonth = () => {
   currentDate.value = new Date(
