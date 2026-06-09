@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <header class="w-full border-b border-neutral-800 bg-neutral-900/5 flex items-center justify-center backdrop-blur-md py-4 px-6 sm:px-12 fixed">
+  <header class="w-full border-b border-neutral-800 bg-neutral-900/5 flex items-center justify-center backdrop-blur-md py-4 px-6 sm:px-12 sticky">
     <div class="container-app flex items-center justify-between">
 
       <!-- Logo -->
