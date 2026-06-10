@@ -7,6 +7,7 @@ import Footer from './components/Footer.vue';
 import Progresso from './components/Progresso.vue';
 import Card from './components/Card.vue';
 import Log from './components/Log.vue';
+import ReservaCard from './components/ReservaCard.vue';
 
 </script>
 
@@ -18,6 +19,7 @@ import Log from './components/Log.vue';
   title="Tagliatelle al Ragù"
   description="Massa fresca puxada à mão, ragù de carne bovina cozido por seis horas. O clássico que não precisa de explicação."/>
   <Log />
+  <ReservaCard />
   <Footer />
   
 </template>
