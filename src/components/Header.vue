@@ -100,20 +100,19 @@ const config = computed(() => {
         <img
           :src="config.logo"
           alt="Logo"
-          class="h-10 sm:h-12 md:h-16"
+          class="h-10 sm:h-12 lg:h-14 xl:h-16"
         />
       </RouterLink>
 
       <!-- Nav desktop -->
       <nav
         v-if="config.showNav"
-        class="hidden md:flex items-center gap-8 xl:gap-12"
+        class="hidden md:flex items-center gap-4 lg:gap-8 xl:gap-12 text-xs lg:text-sm"
       >
         <NavLink
           v-for="link in config.links"
           :key="link.to"
           :to="link.to"
-          size="xs"
         >
           {{ link.label }}
         </NavLink>

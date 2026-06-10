@@ -17,6 +17,8 @@
 <Loading size="8"/>
 <br>
 <Wine :width="120" :height="220"/>
+<br>
+<Badge>Confirmado</Badge>
 </template>
 
 <script setup>
@@ -27,6 +29,7 @@ import Input from '../components/Input.vue';
 import { ref } from 'vue';
 import Loading from '../components/Loading.vue';
 import Wine from '../components/Wine.vue';
+import Badge from '../components/Badge.vue';
 
 const horarioSelecionado = ref('')
 
