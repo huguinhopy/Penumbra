@@ -2,11 +2,13 @@
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import NavLink from './NavLink.vue'
+import { useAuthStore } from '../stores/auth.js'
+
+const authStore = useAuthStore()
 
 const menuAberto = ref(false)
 
-// Depois você só substitui esse valor pelo retorno da API
-const nomeAdmin = ref('Henrique')
+const nomeAdmin = ref(authStore.admin?.nome)
 
 const inicialAdmin = computed(() => {
   return nomeAdmin.value?.charAt(0).toUpperCase() || '?'
@@ -26,6 +28,7 @@ const config = computed(() => {
     case 'simple':
       return {
         logo: '/logo-header.svg',
+        link: '/',
         showNav: false,
         showSocials: false,
         showProfile: false,
@@ -35,6 +38,7 @@ const config = computed(() => {
     case 'admin':
       return {
         logo: '/logo-header-2.svg',
+        link: '/admin/dashboard',
         showNav: true,
         showSocials: false,
         showProfile: true,
@@ -62,6 +66,7 @@ const config = computed(() => {
     default:
       return {
         logo: '/logo-header.svg',
+        link: '/',
         showNav: true,
         showSocials: true,
         showProfile: false,
@@ -91,12 +96,12 @@ const config = computed(() => {
 
 <template>
   <header
-    class="w-full border-b border-neutral-800 bg-neutral-900/5 backdrop-blur-md py-4 px-6 sm:px-12 sticky justify-center flex"
+    class="w-full border-b border-neutral-800 bg-neutral-900/5 backdrop-blur-md py-4 px-6 sm:px-12 fixed z-1 justify-center flex"
   >
     <div class="container-app flex items-center justify-between">
 
       <!-- Logo -->
-      <RouterLink to="/">
+      <RouterLink :to="config.link">
         <img
           :src="config.logo"
           alt="Logo"
@@ -247,7 +252,8 @@ const config = computed(() => {
         </NavLink>
 
         <!-- Perfil Admin Mobile -->
-        <div
+        <RouterLink
+          to="/admin/perfil"
           v-if="config.showProfile"
           class="flex items-center justify-end gap-3 pt-4 border-t border-neutral-800"
         >
@@ -270,7 +276,7 @@ const config = computed(() => {
           >
             {{ inicialAdmin }}
           </div>
-        </div>
+        </RouterLink>
 
         <!-- Redes Sociais Mobile -->
         <div
