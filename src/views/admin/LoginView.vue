@@ -7,7 +7,7 @@
       </div> 
       <div class="flex flex-col gap-4"> 
         <Input v-model="email" label="E-mail" label-size="16" placeholder="Digite seu email de acesso" input-size="14" required></Input> 
-        <Input v-model="senha" type="password" label="Senha" label-size="16" placeholder="Digite sua senha de acesso" input-size="14" required></Input> 
+        <Input v-model="senha" type="password" label="Senha" label-size="16" placeholder="Digite sua senha de acesso" input-size="14" required @enter="fazerLogin"></Input> 
         <p v-if="erro" class="text-red-500 text-sm">
           {{ erro }}
         </p>

@@ -142,8 +142,8 @@ const buttonClasses = computed(() => {
     case 'lined-green':
       classes.push(
         'bg-transparent',
-        'border--[#35BA7D]',
-        'text--[#35BA7D]',
+        'border-[#35BA7D]',
+        'text-[#35BA7D]',
         'hover:text-neutral-900',
         'hover:cursor-pointer'
       )

@@ -19,6 +19,10 @@ defineProps({
     type: String,
     default: '',
   },
+  descriptionSm: {
+    type: String,
+    default: '',
+  },
 
   icon: {
     type: String,
@@ -113,6 +117,17 @@ class="flex justify-center"
       >
         {{ description }}
     </h6>
+      <p
+        v-if="descriptionSm"
+        class="
+          text-neutral-500
+          text-xs
+          sm:text-sm
+          font-inter
+        "
+      >
+        {{ descriptionSm }}
+    </p>
 
       <!-- Conteúdo -->
 

@@ -33,6 +33,7 @@
         error ? errorClasses : normalClasses,
         disabled ? disabledClasses : '',
       ]"
+      @keydown.enter="$emit('enter')"
       @input="$emit('update:modelValue', $event.target.value)"
     />
 
@@ -118,11 +119,10 @@ defineProps({
   },
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue', 'enter'])
 
 const baseClasses = `
 w-full
-rounded-lg
 border
 outline-none
 transition-all

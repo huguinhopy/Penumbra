@@ -1,5 +1,8 @@
 <template>
-    <div class="flex w-full justify-center relative bottom-0">
-        <img src="/rodape.svg" alt="" class="my-12">
-    </div>
+  <div class="flex justify-center py-12 mt-auto">
+    <img
+      src="/rodape.svg"
+      alt="Rodapé"
+    >
+  </div>
 </template>

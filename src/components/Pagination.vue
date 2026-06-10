@@ -35,11 +35,13 @@ const mudarPagina = (pagina) => {
       :disabled="modelValue === 1"
       class="
         px-3 py-2
-        bg-neutral-800
+        bg-neutral-900
+        hover:bg-neutral-800
+        border
+        border-neutral-700
         text-neutral-400
         disabled:opacity-40
         disabled:cursor-not-allowed
-        hover:cursor-pointer
       "
     >
       ←
@@ -59,7 +61,7 @@ const mudarPagina = (pagina) => {
       :class="
         pagina === modelValue
           ? 'bg-gold-500 text-black'
-          : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
+          : 'bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-400'
       "
     >
       {{ pagina }}
@@ -70,7 +72,10 @@ const mudarPagina = (pagina) => {
       :disabled="modelValue === totalPages"
       class="
         px-3 py-2
-        bg-neutral-800
+        bg-neutral-900
+        hover:bg-neutral-800
+        border
+        border-neutral-700
         text-neutral-400
         disabled:opacity-40
         disabled:cursor-not-allowed

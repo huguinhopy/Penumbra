@@ -68,9 +68,9 @@
             </div>
             <p class="sm:text-sm text-xs font-inter text-gold-500">{{ props.reserva.nome }}</p>
         </div>
-        <div class="flex flex-col items-end h-full justify-between">
+        <div class="flex flex-col items-end h-full justify-between shrink-0">
             <Badge :color="badgeColor">{{ props.reserva.status }}</Badge>
-            <Button :to="`/admin/reservas/${props.reserva.id_reserva}`" variant="full-neutral" size="12" px="16" py="8">
+            <Button :to="`/admin/reservas/${props.reserva.id_reserva}`" variant="full-neutral" size="12" px="12" py="8">
                 Ver detalhes
             </Button>
         </div>
